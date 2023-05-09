@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #html {
+        background-color: black;
+        color: white;
+      }
+      #css {
+        background-color: black;
+        color: white;
+      }
+      #js {
+        background-color: black;
+        color: white;
+      }
+    </style>
+    <script>
+      let prevButton = null;
+
+      function changeColor(color) {
+        let button = document.getElementById(color);
+
+        if (button === prevButton) {
+          return;
+        }
+
+        if (prevButton !== null) {
+          prevButton.style.backgroundColor = "black";
+          prevButton.style.color = "white";
+        }
+
+        button.style.backgroundColor = "white";
+        button.style.color = "black";
+
+        prevButton = button;
+      }
+    </script>
+  </head>
+  <body>
+    <button id="html" onclick="changeColor('html')">html</button>
+    <button id="css" onclick="changeColor('css')">css</button>
+    <button id="js" onclick="changeColor('js')">js</button>
+  </body>
+</html>

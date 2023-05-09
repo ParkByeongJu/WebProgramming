@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      #textId {
+        text-align: center;
+        padding: 25%;
+      }
+      #Red {
+        background-color: red;
+        position: relative;
+        top: -280px;
+        left: 570px;
+      }
+      #Blue {
+        background-color: blue;
+        position: relative;
+        top: -280px;
+        left: 570px;
+      }
+      #Green {
+        background-color: green;
+        position: relative;
+        top: -280px;
+        left: 570px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      function inputText() {
+        const text = prompt("텍스트를 입력해주세요");
+        if (text === null || text === "") {
+          alert("텍스트를 입력해 주세요");
+        } else {
+          let textDiv = document.createElement("div");
+          textDiv.textContent = text;
+          textDiv.id = "textId";
+          document.body.appendChild(textDiv);
+
+          let redButton = document.createElement("button");
+          redButton.textContent = "빨강";
+          redButton.id = "Red";
+          document.body.appendChild(redButton);
+          redButton.addEventListener("click", changeRedColor);
+
+          let blueButton = document.createElement("button");
+          blueButton.textContent = "파랑";
+          blueButton.id = "Blue";
+          document.body.appendChild(blueButton);
+          blueButton.addEventListener("click", changeBlueColor);
+
+          let greenButton = document.createElement("button");
+          greenButton.textContent = "초록";
+          greenButton.id = "Green";
+          document.body.appendChild(greenButton);
+          greenButton.addEventListener("click", changeGreenColor);
+        }
+      }
+      inputText();
+
+      function changeRedColor() {
+        let red = document.getElementById("textId");
+        red.style.color = "#ff0000";
+        alert("빨간색으로 변경됩니다.");
+      }
+      function changeBlueColor() {
+        let blue = document.getElementById("textId");
+        blue.style.color = "#0000ff";
+        alert("파란색으로 변경됩니다");
+      }
+      function changeGreenColor() {
+        let green = document.getElementById("textId");
+        green.style.color = "Green";
+        alert("초록색으로 변경됩니다.");
+      }
+    </script>
+  </body>
+</html>
