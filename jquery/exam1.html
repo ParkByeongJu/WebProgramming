@@ -1,25 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script
       src="https://code.jquery.com/jquery-3.6.4.js"
       integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
       crossorigin="anonymous"
     ></script>
+    <style>
+      #textId {
+        text-align: center;
+        padding: 25%;
+      }
+      #Red {
+        background-color: red;
+        position: relative;
+        top: -280px;
+        left: 570px;
+      }
+      #Blue {
+        background-color: blue;
+        position: relative;
+        top: -280px;
+        left: 570px;
+      }
+      #Green {
+        background-color: green;
+        position: relative;
+        top: -280px;
+        left: 570px;
+      }
+    </style>
+  </head>
+  <body>
     <script>
-        $(function inputText(){
-            const text = prompt("텍스트를 입력해주세요");
-        if (text === null || text === "") {
-          alert("텍스트를 입력해 주세요");
-        }
-        });
+      const text = prompt("텍스트를 입력해주세요");
+          if (text) {
+            const $textDiv = $("<div>").text(text).attr("id", "textId").appendTo("body");
+            
+            $("<button>").text("빨강").attr("id", "Red").appendTo("body").click(function() {
+              $textDiv.css("color", "#ff0000");
+              alert("빨간색으로 변경됩니다.");
+            });
+
+            $("<button>").text("파랑").attr("id", "Blue").appendTo("body").click(function() {
+              $textDiv.css("color", "#0000ff");
+              alert("파란색으로 변경됩니다.");
+            });
+
+            $("<button>").text("초록").attr("id", "Green").appendTo("body").click(function() {
+              $textDiv.css("color", "green");
+              alert("초록색으로 변경됩니다.");
+            });
+          } else {
+            alert("텍스트를 입력해 주세요");
+          }
     </script>
-</head>
-<body>
-   <div id="text"></div> 
-</body>
+  </body>
 </html>
