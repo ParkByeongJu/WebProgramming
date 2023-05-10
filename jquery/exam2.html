@@ -14,7 +14,7 @@
       #title {
         width: 300px;
         height: 50px;
-        background-color: gray;
+        background-color: rgb(184, 179, 179);
         text-align: center;
         display: flex;
         justify-content: center;
@@ -24,18 +24,18 @@
         position: fixed;
       }
       .main {
-        background-color: rgb(121, 189, 248);
+        background-color: rgb(149, 201, 247);
         width: 300px;
         min-height: 300px;
         max-height: 400px;
         overflow-y: scroll;
       }
-      .article{
+      .article {
         background-color: white;
         margin: 10px;
         padding: 3px;
         line-height: 1;
-        border: 1px solid ;
+        border: 1px solid;
         position: relative;
         top: 10px;
       }
@@ -48,7 +48,13 @@
           name = prompt("기자를 입력해주세요");
           text = prompt("기사를 입력해주세요");
           $(".main").append(
-            "<div class='article'>" + "<b>" + name + "</b>"+  ":" + text + "</div>"
+            "<div class='article'>" +
+              "<b>" +
+              name +
+              "</b>" +
+              ":" +
+              text +
+              "</div>"
           );
         });
       });
@@ -57,12 +63,11 @@
   <body>
     <div id="title">기사 등록하기</div>
     <div class="main">
-      <div class="article"><b>박지성</b>&nbsp; SBS에서 월드컵보세요</div>
-      
+      <div class="article"><b>박지성</b> SBS에서 월드컵보세요</div>
+
       <div class="article"><b>안정환</b> MBC죠...</div>
-      
+
       <div class="article"><b>이영표</b> KBS는 수신료의 가치를..</div>
-      
     </div>
     <button id="button">기사 등록하기</button>
   </body>
