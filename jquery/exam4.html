@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous"
+      ></script>
+      <script>
+
+       
+            $(":input[type=radio]").click (function() {
+              const currentId = $(this).prop("checked");
+              if (currentId) {
+                $(this).prop("checked", false);
+              }
+              else{
+                $(this).prop("checked", true);
+              }
+            });
+          
+
+        function join(){
+            let id = $("#id").val();
+            
+            let password = $("#pass").val();
+                if (password.length < 5) {
+                    alert("비밀번호는 5자 이상이어야 합니다.");
+                    return false;
+                }
+            let male = $("#male").is(":checked");
+            
+            let female = $("#female").is(":checked");
+                if (!male && !female) {
+                    alert("성별을 선택해주세요.");
+                    return false;
+                }
+
+            let job = $("#job").val();
+                if (!job) {
+                    alert("직업을 선택해주세요.");
+                    return false;
+                }
+            
+            let hobbies = $('input[type="checkbox"]:checked');
+                if (hobbies.length < 3) {
+                    alert("취미는 3개 이상 선택해주세요.");
+                    return false;
+                }
+            alert("회원가입이 완료되었습니다!");
+            return true;
+              
+        }
+      </script>
+</head>
+<body>
+  <form action="">
+    아이디 &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="text" name="id" id="id" placeholder="아이디(이메일 형식)"><br><br>
+    비밀번호 &nbsp;
+        <input type="password" name="pass" id="pass" placeholder="비밀번호(5자이상)"><br><br>
+    성별 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="radio1">남자</label>
+    <input type="radio" id="radio1" name="options" value="male" />
+    <label for="radio2">여자</label>
+    <input type="radio" id="radio2" name="options" value="female" />
+    <br><br>
+    직업&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <select name="job" id="job" required>
+      <option value="" class="option"></option>
+      <option value="student" name="student">학생</option>
+      <option value="front" name="front">프론트엔드개발자</option>
+      <option value="back" name="back">백엔드개발자</option>
+    </select>
+    <br>
+    <br>
+    취미
+      <input type="checkbox" name="hobby" id="dev" /> 개발
+      <input type="checkbox" name="hobby" id="game" /> 게임
+      <input type="checkbox" name="hobby" id="fishing" /> 낚시
+      <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="checkbox" name="hobby" id="exercise" /> 운동
+      <input type="checkbox" name="hobby" id="reading" /> 독서
+      <input type="checkbox" name="hobby" id="muisc" /> 음악감상
+      <br /><br><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="취소" name="" id="" />
+      &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="회원가입" onclick="join()" />
+  </form>  
+</body>
+</html>
