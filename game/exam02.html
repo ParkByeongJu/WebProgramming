@@ -24,6 +24,7 @@
         bottom: 0px;
         width: 60px;
         height: 70px;
+        border: 1px black solid;
       }
 
       #enemy {
@@ -35,6 +36,12 @@
       }
     </style>
     <script>
+      const ENEMY_SPEED_MIN_EASY = 1000;
+      const ENEMY_SPEED_MAX_EASY = 3000;
+
+      const ENEMY_SPEED_MIN_HARD = 500;
+      const ENEMY_SPEED_MAX_HARD = 1000;
+
       $(function () {
         const jin = $("#jin");
         const enemy = $("#enemy");
@@ -45,13 +52,45 @@
         function gameStart() {
           setKeyboardEvent();
           enemyStart();
+
+          checkGameover();
+        }
+
+        function checkGameover() {
+          setInterval(function () {
+            const jinLeft = Number(jin.css("left").replace("px", ""));
+            const jinRight = jinLeft + 60;
+            const jinBottom = Number(jin.css("bottom").replace("px", ""));
+
+            const enemyLeft = Number(jin.css("left").replace("px", ""));
+            const enemyRight =enemyLeft + 60;
+            const enemyTop = 60;
+
+            const isGameOver = jinRight < enemyLeft && jinLeft < enemyRight 
+            && jinBottom < enemyTop ;
+            //console.log(`isGameOver: ${enemyTop}`)
+            console.log(isGameOver);
+
+            if (isGameOver) {
+              jin.stop();
+              enemy.stop();
+            }
+          });
+        }
+
+        function getRandomNumber(min, max) {
+          return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
         function enemyStart() {
-          enemy.animate({ right: "500px" }, 1500, "linear", function () {
+          //속도조절
+          const speed = getRandomNumber(1000, 3000);
+
+          enemy.animate(
+            { right: "500px" }, speed, "linear", function () {
             enemy.css("right", "-50px");
+            enemyStart();
           });
-          enemyStart();
         }
 
         function jump() {
