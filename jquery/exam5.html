@@ -9,13 +9,10 @@
       crossorigin = "anonymous";
     </script>
     <script>
-      $(document).ready(function () {
-        // 전체 선택 체크박스 이벤트 리스너
+      $(document).ready(function ()
         $("#check-all").change(function () {
           $(".check-item").prop("checked", $(this).prop("checked"));
         });
-
-        // 로그 버튼 클릭 이벤트 리스너
         $("#log-btn").click(function () {
           let checkedItems = $(".check-item:checked");
           if (checkedItems.length === 0) {
