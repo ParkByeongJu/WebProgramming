@@ -15,7 +15,26 @@
         position: absolute;
         width: 500px;
         height: 200px;
-        border: 1px black solid;
+        
+      }
+
+      .sliding-background {
+        z-index: -100;
+        position: absolute;
+        background: url('images/bg.jpg');
+        width: 5000%;
+        height: 100%;
+        animation: slide 10s linear infinite;
+      }
+  
+      @keyframes slide {
+        from {
+          transform: translate(0, 0);
+        }
+  
+        to {
+          transform: translate(-500px, 0);
+        }
       }
 
       #jin {
@@ -24,16 +43,25 @@
         bottom: 0px;
         width: 60px;
         height: 70px;
-        border: 1px black solid;
+       
       }
 
       #enemy {
         position: absolute;
-        width: 70px;
+        width: 30px;
+        height: 30px;
         transform: scaleX(-1);
         right: 0px;
         bottom: 0px;
       }
+
+      #score {
+        float: right;
+      }
+      #gameover_screen{
+        display: none;
+      }
+      
     </style>
     <script>
       const ENEMY_SPEED_MIN_EASY = 1000;
@@ -45,7 +73,9 @@
       $(function () {
         const jin = $("#jin");
         const enemy = $("#enemy");
+
         let isJumping = false;
+        let score = 0;
 
         gameStart();
 
@@ -56,26 +86,29 @@
           checkGameover();
         }
 
+        function isColliding(el1, el2) {
+          const rect1 = el1.getBoundingClientRect();
+          const rect2 = el2.getBoundingClientRect();
+
+          return !(
+            rect1.bottom < rect2.top ||
+            rect1.top > rect2.bottom ||
+            rect1.right < rect2.left ||
+            rect1.left > rect2.right
+          );
+        }
+
         function checkGameover() {
           setInterval(function () {
-            const jinLeft = Number(jin.css("left").replace("px", ""));
-            const jinRight = jinLeft + 60;
-            const jinBottom = Number(jin.css("bottom").replace("px", ""));
-
-            const enemyLeft = Number(jin.css("left").replace("px", ""));
-            const enemyRight =enemyLeft + 60;
-            const enemyTop = 60;
-
-            const isGameOver = jinRight < enemyLeft && jinLeft < enemyRight 
-            && jinBottom < enemyTop ;
-            //console.log(`isGameOver: ${enemyTop}`)
-            console.log(isGameOver);
-
-            if (isGameOver) {
+            if (isColliding(jin[0], enemy[0])) {
               jin.stop();
               enemy.stop();
+              $("#gameover_screen").show();
+              $("#gameover_screen input").click(function() {
+                location.reload();
+              });
             }
-          });
+          }, 1000 / 60);
         }
 
         function getRandomNumber(min, max) {
@@ -86,18 +119,24 @@
           //속도조절
           const speed = getRandomNumber(1000, 3000);
 
-          enemy.animate(
-            { right: "500px" }, speed, "linear", function () {
+          enemy.animate({ right: "500px" }, speed, "linear", function () {
+            score += 100;
+            updateScore(score);
+
             enemy.css("right", "-50px");
             enemyStart();
           });
         }
 
+        function updateScore(score) {
+          $("#score").text(score);
+        }
+
         function jump() {
           isJumping = true;
           jin
-            .animate({ bottom: "+=120px" }, "fast")
-            .animate({ bottom: "0px" }, "fast", function () {
+            .animate({ bottom: "+=120px" })
+            .animate({ bottom: "0px" }, function () {
               isJumping = false;
             });
         }
@@ -119,8 +158,14 @@
   </head>
   <body>
     <div id="container">
+      <div class="sliding-background"></div>
       <img id="jin" src="images/jin.png" alt="jin" />
       <img id="enemy" src="images/enemy.png" alt="enermy" />
+      <div id="gameover_screen">
+        Game Over
+        <input type="button" value="재시작" />
+      </div>
+      <div id="score">0</div>
     </div>
   </body>
 </html>
