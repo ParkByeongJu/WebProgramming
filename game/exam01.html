@@ -45,10 +45,18 @@
           console.log(e.key);
         });
         function moveRight() {
-          jin.animate({ left: "+=80px" });
+        //오른쪽 벽에 닿았는지
+        const jinRightMargin = $('#jin').css('right').replace('px', '');
+            if (jinRightMargin > 0){
+                jin.animate({ left: "+=10px" }, 0);
+            }
+            //보정
+            if (jinRightMargin < 0){
+                jin.animate({ left: "210px" }, 0);
+            }
         }
         function moveleft() {
-          jin.animate({ left: "-=80px" });
+          jin.animate({ left: "-=10px" }, 0);
         }
       });
     </script>
