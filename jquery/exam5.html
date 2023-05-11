@@ -3,7 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <title>Document</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      src = "https://code.jquery.com/jquery-3.6.4.js";
+      integrity = "sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=";
+      crossorigin = "anonymous";
+    </script>
     <script>
       $(document).ready(function () {
         // 전체 선택 체크박스 이벤트 리스너
@@ -19,10 +23,7 @@
             return;
           }
           checkedItems.each(function () {
-            console.log(
-              $(this).closest("tr").find("td:eq(1)").text()
-                
-            );
+            console.log($(this).closest("tr").find("td:eq(1)").text());
           });
         });
       });
