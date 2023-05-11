@@ -24,33 +24,51 @@
         bottom: 0px;
         width: 60px;
         height: 70px;
-        border: 1px solid;
+      }
+
+      #enemy {
+        position: absolute;
+        width: 70px;
+        transform: scaleX(-1);
+        right: 0px;
+        bottom: 0px;
       }
     </style>
     <script>
       $(function () {
         const jin = $("#jin");
+        const enemy = $("#enemy");
         let isJumping = false;
 
         gameStart();
 
         function gameStart() {
           setKeyboardEvent();
+          enemyStart();
+        }
+
+        function enemyStart() {
+          enemy.animate({ right: "500px" }, 1500, "linear", function () {
+            enemy.css("right", "-50px");
+          });
+          enemyStart();
         }
 
         function jump() {
           isJumping = true;
-          jin.animate({ bottom: "+=80px" }).animate({ bottom: "0px" }, function() {
-            isJumping = false;
-          });
+          jin
+            .animate({ bottom: "+=120px" }, "fast")
+            .animate({ bottom: "0px" }, "fast", function () {
+              isJumping = false;
+            });
         }
 
         function setKeyboardEvent() {
           $("html").keydown(function (e) {
             switch (e.key) {
               case " ":
-                if(!isJumping){
-                    jump();
+                if (!isJumping) {
+                  jump();
                 }
                 break;
             }
@@ -63,6 +81,7 @@
   <body>
     <div id="container">
       <img id="jin" src="images/jin.png" alt="jin" />
+      <img id="enemy" src="images/enemy.png" alt="enermy" />
     </div>
   </body>
 </html>
