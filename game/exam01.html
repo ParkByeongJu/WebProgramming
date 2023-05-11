@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script
       src="https://code.jquery.com/jquery-3.6.4.js"
@@ -11,35 +11,51 @@
       crossorigin="anonymous"
     ></script>
     <style>
-        #container{
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border: 1px black solid;
-        }
+      #container {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border: 1px black solid;
+      }
 
-        #jin{
-            position: absolute;
-            left: 100px;
-            top: 80px;
-            width: 80px;
-            height: 120px;
-            border: 1px solid;
-        }
+      #jin {
+        position: absolute;
+        left: 100px;
+        top: 80px;
+        width: 80px;
+        height: 120px;
+        border: 1px solid;
+      }
     </style>
 
     <script>
-        $(function(){
-            //키보드 이벤트 정의
-            $('html').keydown(function(){
-                console.log('move!!');
-            });
+      $(function () {
+        const jin = $("#jin");
+
+        //키보드 이벤트 정의
+        $("html").keydown(function (e) {
+          switch (e.key) {
+            case "ArrowRight":
+              moveRight();
+              break;
+            case "ArrowLeft":
+              moveleft();
+              break;
+          }
+          console.log(e.key);
         });
+        function moveRight() {
+          jin.animate({ left: "+=80px" });
+        }
+        function moveleft() {
+          jin.animate({ left: "-=80px" });
+        }
+      });
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <div id="container">
-        <img  id="jin" src="images/jin.png" alt="jin">
+      <img id="jin" src="images/jin.png" alt="jin" />
     </div>
-</body>
+  </body>
 </html>
