@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      #container {
+        position: absolute;
+        width: 500px;
+        height: 200px;
+        border: 1px black solid;
+      }
+
+      #jin {
+        position: absolute;
+        left: 30px;
+        bottom: 0px;
+        width: 60px;
+        height: 70px;
+        border: 1px solid;
+      }
+    </style>
+    <script>
+      $(function () {
+        const jin = $("#jin");
+        let isJumping = false;
+
+        gameStart();
+
+        function gameStart() {
+          setKeyboardEvent();
+        }
+
+        function jump() {
+          isJumping = true;
+          jin.animate({ bottom: "+=80px" }).animate({ bottom: "0px" }, function() {
+            isJumping = false;
+          });
+        }
+
+        function setKeyboardEvent() {
+          $("html").keydown(function (e) {
+            switch (e.key) {
+              case " ":
+                if(!isJumping){
+                    jump();
+                }
+                break;
+            }
+            console.log(e.key);
+          });
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <img id="jin" src="images/jin.png" alt="jin" />
+    </div>
+  </body>
+</html>
