@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TekkenGame</title>
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      #container {
+        position: absolute;
+        width: 1000px;
+        height: 500px;
+        border: 1px black solid;
+        background-image: url(images/bg.jpg);
+        background-size: cover;
+      }
+
+      #jin {
+        position: absolute;
+        left: 30px;
+        bottom: 0px;
+        width: 150px;
+        height: 200px;
+      }
+      #jinfront {
+        display: none;
+        position: absolute;
+        left: 30px;
+        bottom: 0px;
+        width: 150px;
+        height: 200px;
+      }
+      #jinback {
+        display: none;
+        position: absolute;
+        left: 30px;
+        bottom: 0px;
+        width: 150px;
+        height: 200px;
+      }
+      #kazuya {
+        position: absolute;
+        right: 30px;
+        bottom: 0px;
+        width: 150px;
+        height: 200px;
+        transform: scaleX(-1);
+      }
+    </style>
+    <script>
+      $(function () {
+        // 플레이어 객체
+        const jin = $("#jin");
+        const kazuya = $("#kazuya");
+        let isMoving = false; // 이동 중인지 여부를 저장하는 플래그
+
+        // jin이 보는 방향을 저장하는 변수
+        let jinDirection = "front";
+
+        // 이동 함수
+        function movePlayer(player, direction) {
+          if (!isMoving) {
+            // 이동 중이 아닐 때만 이동
+            isMoving = true; // 이동 시작
+            if (direction === "up") {
+              // 점프
+              player.animate({ top: "-=50px" }, 200);
+              player.animate({ top: "+=50px" }, 200, function () {
+                isMoving = false; // 이동 종료
+              });
+            } else if (direction === "left") {
+              // 왼쪽 이동
+              player.removeClass(jinDirection); // 이전 방향 클래스 제거
+              player.addClass("left"); // 왼쪽 방향 클래스 추가
+              jinDirection = "left"; // jin이 보는 방향 변경
+              player.animate({ left: "-=10px" }, 50, function () {
+                isMoving = false; // 이동 종료
+              });
+            } else if (direction === "right") {
+              // 오른쪽 이동
+              player.removeClass(jinDirection); // 이전 방향 클래스 제거
+              player.addClass("right"); // 오른쪽 방향 클래스 추가
+              jinDirection = "right"; // jin이 보는 방향 변경
+              player.animate({ left: "+=10px" }, 50, function () {
+                isMoving = false; // 이동 종료
+              });
+            }
+
+            // 충돌 체크
+            if (checkCollision(jin, kazuya)) {
+              // 충돌 발생시 이동 취소
+              if (direction === "left") {
+                player.animate({ left: "+=10px" }, 50);
+              } else if (direction === "right") {
+                player.animate({ left: "-=10px" }, 50);
+              }
+            }
+            if (player.attr("id") === "jin") {
+              // 진인 경우
+              if (parseInt(player.css("left")) <= 0) {
+                // 컨테이너 왼쪽벽에 부딪힌 경우
+                player.css("left", "0px");
+              }
+            } else if (player.attr("id") === "kazuya") {
+              // 카즈야인 경우
+              if (
+                parseInt(player.css("left")) + player.width() >=
+                $("#container").width()
+              ) {
+                // 컨테이너 오른쪽 벽에 부딪힌 경우
+                player.css(
+                  "left",
+                  $("#container").width() - player.width() + "px"
+                );
+              }
+            }
+          }
+        }
+
+        // 충돌 감지 함수
+        function checkCollision(player1, player2) {
+          // player1과 player2의 위치와 크기 정보를 가져옴
+          const rect1 = player1[0].getBoundingClientRect();
+          const rect2 = player2[0].getBoundingClientRect();
+          if (
+            rect1.top < rect2.bottom &&
+            rect1.bottom > rect2.top &&
+            rect1.left < rect2.right &&
+            rect1.right > rect2.left
+          ) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+        // 키보드 이벤트 처리
+        $(document).on("keydown", function (event) {
+          const key = event.key.toLowerCase(); // 입력한 key값을 가져옵니다
+          // 진행 방향에 따라 이동 함수 호출
+          if (key === "a") {
+            movePlayer(jin, "left");
+          } else if (key === "d") {
+            movePlayer(jin, "right");
+          } else if (key === "arrowleft") {
+            movePlayer(kazuya, "left");
+          } else if (key === "arrowright") {
+            movePlayer(kazuya, "right");
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <img id="jin" src="images/jinstand.gif" alt="jin" />
+      <img id="jinfront" src="images/jinfront.gif" alt="jinfront" />
+      <img id="jinback" src="images/jinback.gif" alt="jinback" />
+      <img id="kazuya" src="images/kazuyastand.gif" alt="kazuya" />
+    </div>
+  </body>
+</html>
