@@ -10,12 +10,17 @@ let backgroundImage;
 let spaceshipImage;
 let bulletImage;
 let enemyImage;
+let enemyImage2;
 let gameoverImage;
+let gameStarted;
 let gameover;
 let score;
+let bgY;
 
+gameStarted = false;
 gameover = false; //true면 게임이 끝남, false이면 게임 진행
 score = 0;
+bgY = 0;
 // 비행기 좌표
 let spaceshipX;
 let spaceshipY;
@@ -69,6 +74,24 @@ function enemy() {
     enemyList.push(this);
   };
   this.update = function () {
+    this.y += 2; //enemy의 속도조절
+
+    if (this.y >= canvas.height - 64) {
+      gameover = true;
+      console.log("game over");
+    }
+  };
+}
+
+function enemy2() {
+  this.x = 0;
+  this.y = 0;
+  this.init = function () {
+    this.y = 0;
+    this.x = generateRandomaValue(0, canvas.width - 64);
+    enemyList.push(this);
+  };
+  this.update = function () {
     this.y += 4; //enemy의 속도조절
 
     if (this.y >= canvas.height - 64) {
@@ -90,6 +113,9 @@ function loadImage() {
 
   enemyImage = new Image();
   enemyImage.src = "images/enemy.png";
+
+  enemyImage2 = new Image();
+  enemyImage2.src = "images/enemy2.png";
 
   gameoverImage = new Image();
   gameoverImage.src = "images/gameover.png";
@@ -119,16 +145,21 @@ function createBullet() {
 
 function createEnemy() {
   const interval = setInterval(function () {
-    let e = new enemy();
+    let e;
+    if (score >= 100) {
+      e = new enemy2();
+    } else {
+      e = new enemy();
+    }
     e.init();
   }, 1000);
 }
 
 function update() {
-  if ("d" in keysDown) {
+  if ("ArrowRight" in keysDown) {
     spaceshipX += 7; //우주선의 속도
   } //right
-  if ("a" in keysDown) {
+  if ("ArrowLeft" in keysDown) {
     spaceshipX -= 5; //
   } //left
 
@@ -152,11 +183,26 @@ function update() {
 }
 
 function render() {
-  ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+  // 이미지가 이동하는 속도
+  const speed = 5;
+  // 배경 이미지 위치 업데이트
+  bgY += speed;
+  if (bgY > canvas.height) {
+    bgY = 0;
+  }
+  // 배경 이미지 그리기
+  ctx.drawImage(backgroundImage, 0, bgY, canvas.width, canvas.height);
+  ctx.drawImage(
+    backgroundImage,
+    0,
+    bgY - canvas.height,
+    canvas.width,
+    canvas.height
+  );
   ctx.drawImage(spaceshipImage, spaceshipX, spaceshipY);
-  ctx.fillText(`score:${score}`, 20, 20);
+  ctx.fillText(`score:${score}`, 30, 40);
   ctx.fillStyle = "white";
-  ctx.font = "20px Arial";
+  ctx.font = "30px jua";
   for (let i = 0; i < bulletList.length; i++) {
     if (bulletList[i].alive) {
       ctx.drawImage(bulletImage, bulletList[i].x, bulletList[i].y);
@@ -164,21 +210,49 @@ function render() {
   }
 
   for (let i = 0; i < enemyList.length; i++) {
-    ctx.drawImage(enemyImage, enemyList[i].x, enemyList[i].y);
+    if (score >= 100) {
+      ctx.drawImage(enemyImage2, enemyList[i].x, enemyList[i].y);
+    } else {
+      ctx.drawImage(enemyImage, enemyList[i].x, enemyList[i].y);
+    }
   }
 }
 
-function main() {
-  if (!gameover) {
-    update(); //좌표값 업데이트
-    render(); //다시 그려줌
-    requestAnimationFrame(main);
-  } else {
-    ctx.drawImage(gameoverImage, 10, 100, 380, 380);
+function start() {
+  const startButton = document.getElementById("startButton");
+  const pressStart = document.getElementById("pressstart");
+  if (!gameStarted) {
+    startButton.addEventListener("click", () => {
+      startButton.style.display = "none";
+      pressStart.style.display = "none"; // pressStart 요소를 숨김
+      gameStarted = true; // gameStarted 변수를 true로 설정하여 게임 시작 상태로 변경
+      main();
+    });
+  }
+
+  function main() {
+    if (!gameover) {
+      update(); //좌표값 업데이트
+      render(); //다시 그려줌
+      requestAnimationFrame(main);
+    } else {
+      ctx.drawImage(gameoverImage, 10, 100, 380, 380);
+      RestartButton();
+    }
   }
 }
 
+function RestartButton() {
+  const reButton = document.getElementById("reButton");
+  if (gameover) {
+    reButton.style.display = "block"; // 게임 오버 상태에서 버튼을 보이도록 함
+    reButton.addEventListener("click", () => {
+      location.reload(); // 페이지를 새로고침하여 게임 재시작
+    });
+  }
+}
+
+start();
 loadImage();
 setupKeyboardListener();
 createEnemy();
-main();
