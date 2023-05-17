@@ -17,7 +17,7 @@
         <input type="text" placeholder="제목" v-model="query">
         {{ query }}
         <div>
-            아이템 {{ movies.length }} 개
+            아이템 {{ filteredMovies.length }} 개
         </div>
       <ul>
         <li v-for="movie in filteredMovies">
